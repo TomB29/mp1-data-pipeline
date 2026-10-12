@@ -15,7 +15,7 @@ def load_csv(filepath):
     """
     dataframeobj = pd.read_csv(filepath)
     rows = len(dataframeobj.index)
-    logger.info("Loaded CSV file: %s", filepath, f" ({rows} row(s))")
+    logger.info(f"Loaded CSV file: {filepath.name} ({rows} row(s))")
     return dataframeobj
 
 
@@ -25,7 +25,7 @@ def load_json(filepath):
     """
     with open(filepath, "r") as file:
         data = json.load(file)
-    logger.info("Loaded JSON file: ", filepath)
+    logger.info(f"Loaded JSON file: {filepath.name}")
     return data
     
 def load_yaml(filepath):
@@ -34,7 +34,7 @@ def load_yaml(filepath):
     """
     with open(filepath, "r") as f:
         config_yamlobj = yaml.safe_load(f)
-    logger.info("Yaml File Loaded %s", filepath)
+    logger.info(f"Yaml File Loaded: {filepath.name}")
     return config_yamlobj
 
 def load_data(filepath):
@@ -50,6 +50,5 @@ def load_data(filepath):
     elif split_char[-1] == yaml:
         load_yaml(filepath)
     else:
-        logger.error(filepath, " is not in a supported file type%s")
-        raise ValueError("Unsuported file type - %s", filepath)
-
+        logger.error(f"{filepath.name} is not in a supported file type")
+        raise ValueError(f"Unsuported file type - {filepath.name}")
