@@ -55,12 +55,12 @@ def parse_arguments():
         "--output", "-o",
         default="results.csv",
         help="Output file path"
-        )
+    )
     parser.add_argument(
         "--verbose", "-v",
         action="store_true",
         help="Print detailed infomation"
-        )
+    )
         
     args = parser.parse_args()
 
