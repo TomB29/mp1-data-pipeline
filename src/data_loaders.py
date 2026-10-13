@@ -42,7 +42,7 @@ def load_data(filepath):
     filepath is a string, such as 'fixtures/sample.csv'
     """
     # split filepath at . -> return csv, json, yaml
-    split_char = filepath.split()
+    split_char = str(filepath).split()
     if split_char[-1] == "csv":
         load_csv(filepath)
     elif split_char[-1] == "json":
