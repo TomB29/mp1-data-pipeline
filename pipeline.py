@@ -41,18 +41,18 @@ def setup_logging(verbose=False):
 def parse_arguments():
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Analyse a data file")
-    args = parser.parse_args()
+    
     parser.add_argument(
-        "--input", "i",
+        "--input", "-i",
         required=True,
         help="Path to input relevant file"
-        )
+    )
     parser.add_argument(
         "--config", "-c",
         required=True,
         help="Accepts path to yaml config file")
     parser.add_argument(
-        "--output", "o",
+        "--output", "-o",
         default="results.csv",
         help="Output file path"
         )
@@ -61,6 +61,8 @@ def parse_arguments():
         action="store_true",
         help="Print detailed infomation"
         )
+        
+    args = parser.parse_args()
 
 
 
@@ -79,19 +81,43 @@ def validate_input(filepath):
 def main():
     parse_arguments()
     """Main pipeline function."""
-    # TODO: implement
     try:
-        logger.DEBUG(f"Argument Parsed: Input= {args.input}\nOutput= {args.output}")
         validate_input(args.input)
+        logger.DEBUG(f"Argument Parsed: Input= {args.input}\nOutput= {args.output}")
+    except FileNotFoundError:
+        sys.exit(1)
+    
+    try:
+        logger.DEBUG(f"Argument Parsed: Config File Validation -- {args.config}")
+        validate_input(args.config)
     except FileNotFoundError:
         sys.exit(1)
 
     try:
         logger.DEBUG(f"Argument Parsed: Input={args.input}\nOutput={args.output}")
-        load_data(args.input)
+        loaded_data = load_data(args.input)
         logger.info(f"Data loaded from {args.input}")
+        loaded_config = load_data(args.config)
+        logger.info(f"Config file loaded from {args.config}")
     except ValueError:
         sys.exit(1)
+
+    DATAFRAME_COPY = loaded_data.copy
+
+    try:
+        processed = data_processor(loaded_data, loaded_config)
+    except ValueError:
+        sys.exit(1)
+    
+    print(create_cleaning_report(loaded_data, processed))
+    logger.info(f"""processed data from {args.input} 
+    input using {args.config} configuration settings""")
+    processed.to_csv(args.output, index=False)
+    logger.info(f"saved processed date to {args.output}")
+        
+
+
+
 
         
 
