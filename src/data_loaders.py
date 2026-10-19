@@ -15,7 +15,7 @@ def load_csv(filepath):
     """
     dataframeobj = pd.read_csv(filepath)
     rows = len(dataframeobj.index)
-    logger.info(f"Loaded CSV file: {filepath.name} ({rows} row(s))")
+    logger.info(f"Loaded CSV file: {Path(filepath).name} ({rows} row(s))")
     return dataframeobj
 
 
@@ -25,7 +25,7 @@ def load_json(filepath):
     """
     with open(filepath, "r") as file:
         data = json.load(file)
-    logger.info(f"Loaded JSON file: {filepath.name}")
+    logger.info(f"Loaded JSON file: {Path(filepath).name}")
     return data
     
 def load_yaml(filepath):
@@ -34,7 +34,7 @@ def load_yaml(filepath):
     """
     with open(filepath, "r") as f:
         config_yamlobj = yaml.safe_load(f)
-    logger.info(f"Yaml File Loaded: {filepath.name}")
+    logger.info(f"Yaml File Loaded: {Path(filepath).name}")
     return config_yamlobj
 
 def load_data(filepath):
@@ -42,13 +42,13 @@ def load_data(filepath):
     filepath is a string, such as 'fixtures/sample.csv'
     """
     # split filepath at . -> return csv, json, yaml
-    split_char = str(filepath).split()
-    if split_char[-1] == "csv":
-        load_csv(filepath)
-    elif split_char[-1] == "json":
-        load_json(filepath)
-    elif split_char[-1] == yaml:
-        load_yaml(filepath)
+    if Path(filepath).suffix == ".csv":
+        return load_csv(filepath)
+    elif Path(filepath).suffix == ".json":
+        return load_json(filepath)
+    elif Path(filepath).suffix == ".yaml":
+        return load_yaml(filepath)
     else:
-        logger.error(f"{filepath.name} is not in a supported file type")
-        raise ValueError(f"Unsuported file type - {filepath.name}")
+        print (Path(filepath).suffix)
+        logger.error(f"{Path(filepath).name} is not in a supported file type")
+        raise ValueError(f"Unsuported file type - {Path(filepath).name}")

@@ -14,4 +14,42 @@ Using my understanding of the code structure, the following command should retur
 |
 -> File would return a csv excluding the rows 94,95, and 96 (ID 95-97) as they do not contain valid numericals in the     
     ratings column,rows indexed 98 and 99 removed for being duplicates of the first two rows (0 and 1)
-    as well as excluding rows 92 and 93 (ID 93 and 94), as their scores of -50 and 200 fall outside of the accepted range of 3 standard deviations (calcuated at a single St.Dv. of ~20.22, and so a "normal" range of ~15 to 135, assuming normal distribution, which there is no clear indicator to suggest the data may not be normally distributed given no clear rating system is established.) It would also include a dictionary report of 100 initial rows, 5 were removed, leaving 93 rows remaining and all columns remaining
+    as well as excluding rows 92 and 93 (ID 93 and 94), as their scores of -50 and 200 fall outside of the accepted range of 3 standard deviations (calcuated at a single St.Dv. of ~20.22, and so a "normal" range of ~15 to 135, assuming normal distribution, which there is no clear indicator to suggest the data may not be normally distributed given no clear rating system is established.) It would also include a dictionary report of 98 initially validated rows, 6 were removed, leaving 92 rows remaining and all columns remaining
+
+
+
+Follow Up Declaration ->
+Through continued testing and reconfiguration, I was able to resolve some primary issues that allowed me to address a number of smaller
+syntactical mystakes that would've prevented the program from running appropriately. These mistakes have also been rectified and code now returns the following
+
+input-> python3 pipeline.py --input fixtures/sample_data.csv --config config/config.yaml --output output/processed_csv.csv --verbose
+output V
+11:03:01 INFO     src.utils — Input file validated: fixtures/sample_data.csv
+11:03:01 DEBUG    __main__ — Argument Parsed: Input= fixtures/sample_data.csv
+Output= output/processed_csv.csv
+11:03:01 DEBUG    __main__ — Argument Parsed: Config File Validation -- config/config.yaml
+11:03:01 INFO     src.utils — Input file validated: config/config.yaml
+11:03:01 DEBUG    __main__ — Argument Parsed: Input=fixtures/sample_data.csv
+Output=output/processed_csv.csv
+11:03:01 INFO     src.data_loaders — Loaded CSV file: sample_data.csv (100 row(s))
+11:03:01 INFO     __main__ — Data loaded from fixtures/sample_data.csv
+11:03:01 INFO     src.data_loaders — Yaml File Loaded: config.yaml
+11:03:01 INFO     __main__ — Config file loaded from config/config.yaml
+11:03:01 WARNING  src.data_validator — Column rating row index 94 contains a non-numerable value
+11:03:01 WARNING  src.data_validator — Column rating row index 95 contains a non-numerable value
+11:03:01 DEBUG    src.data_validator — Dataframe contains 98 valid rows, 2 rows removed
+11:03:01 INFO     __main__ — Validated frame contains 98,
+        2 rows removed from 100 original rows
+11:03:01 DEBUG    src.data_processor — Initial number of rows -> 98
+Now cointains 96 rows
+11:03:01 INFO     src.data_processor — removed duplicates from dataframe
+11:03:01 INFO     src.data_processor — Axis selected is Rows: Removing rows with missing values
+11:03:01 DEBUG    src.data_processor — Initial number of rows -> 96
+Now cointains 94 rows
+11:03:01 INFO     src.data_processor — removed rows including missing values from dataframe
+11:03:01 INFO     src.data_processor — removed outliers from dataframe using zscore method over ['rating'] -- Threshold value of 3
+{'rows_before': 98, 'rows_after': 92, 'rows_removed': 6, 'columns_before': 5, 'columns_after': 5, 'columns_removed': 0}
+11:03:01 INFO     __main__ — processed data from fixtures/sample_data.csv 
+    input using config/config.yaml configuration settings
+11:03:01 DEBUG    src.data_output — 92 rows saved to output/processed_csv.csv
+11:03:01 INFO     __main__ — saved processed data to output/processed_csv.csv

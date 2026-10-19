@@ -7,7 +7,6 @@ processing:
   outliers:
     enabled: true
     columns:
-      - record_id
       - rating
     method: "zscore"
     threshold: 3

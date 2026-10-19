@@ -1,8 +1,13 @@
+iniconfig==2.3.1
 logging==0.4.9.6
 numpy==2.5.4
+packaging==26.3
 pandas==3.0.6
 pathlib==1.0.1
+pluggy==1.7.0
+Pygments==2.21.0
 pyjson==1.4.1
+pytest==9.1.1
 python-dateutil==2.9.0.post0
 PyYAML==6.0.3
 six==1.17.0
